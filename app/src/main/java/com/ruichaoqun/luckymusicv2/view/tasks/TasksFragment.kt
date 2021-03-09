@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.ruichaoqun.luckymusicv2.databinding.FragmentTasksBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TasksFragment : Fragment() {
     private val viewModel by viewModels<TasksViewModel>()
     private lateinit var viewDataBinding: FragmentTasksBinding
@@ -17,9 +19,15 @@ class TasksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewDataBinding = FragmentTasksBinding.inflate(inflater,container,false)
-        // Inflate the layout for this fragment
+        viewDataBinding = FragmentTasksBinding.inflate(inflater,container,false).apply {
+            vm = viewModel
+        }
         return viewDataBinding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
     }
 
 }

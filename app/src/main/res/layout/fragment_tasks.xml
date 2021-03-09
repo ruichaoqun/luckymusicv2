@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
+        <import type="androidx.core.content.ContextCompat"/>
+        
         <variable
-            name="viewModel"
+            name="vm"
             type="com.ruichaoqun.luckymusicv2.view.tasks.TasksViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,7 +33,8 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical" 
+                        android:text="@{vm.filterLabelString}"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
@@ -45,12 +49,14 @@
                     <ImageView
                         android:layout_width="96dp"
                         android:layout_height="96dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@{ContextCompat.getDrawable(context,vm.noTasksDrawable)}"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="8dp"/>
+                        android:layout_marginBottom="8dp"
+                        android:text="@{vm.noTasksString}"/>
                 </LinearLayout>
             </RelativeLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
