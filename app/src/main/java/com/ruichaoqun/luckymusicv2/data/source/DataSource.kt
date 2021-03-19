@@ -17,4 +17,6 @@ interface DataSource {
     suspend fun deleteAllTasks()
     suspend fun saveTask(task: Task)
     fun observeTasks(): LiveData<Result<List<Task>>>
+    suspend fun getTask(taskId: String):Result<Task>
+
 }

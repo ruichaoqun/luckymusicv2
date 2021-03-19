@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_tasksFragment_to_statisticsFragment"
             app:destination="@id/statistics_fragemnt_dest" />
+        <action
+            android:id="@+id/action_tasks_fragment_dest_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
     </fragment>
 
     <fragment
@@ -23,6 +26,24 @@
         <action
             android:id="@+id/action_statisticsFragment_to_tasksFragment"
             app:destination="@id/tasks_fragment_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.ruichaoqun.luckymusicv2.view.addtask.AddTaskFragment"
+        android:label="{title}"
+        tools:layout="@layout/add_task_fragment">
+        <argument
+            android:name="taskId"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="false"/>
+        <action
+            android:id="@+id/action_addTaskFragment_to_tasks_fragment_dest"
+            app:destination="@id/tasks_fragment_dest"
+            app:launchSingleTop="true"/>
     </fragment>
 
 </navigation>

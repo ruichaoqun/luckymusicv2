@@ -7,6 +7,7 @@ import com.ruichaoqun.luckymusicv2.R
 import com.ruichaoqun.luckymusicv2.data.Result
 import com.ruichaoqun.luckymusicv2.data.Task
 import com.ruichaoqun.luckymusicv2.data.source.AppRepository
+import com.scwang.smart.refresh.layout.api.RefreshLayout
 import kotlinx.coroutines.launch
 
 /**
@@ -21,17 +22,20 @@ class TasksViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _forceUpdate = MutableLiveData<Boolean>()
-    private val _items: LiveData<List<Task>> = _forceUpdate.switchMap { forceUpdate ->
-        if (forceUpdate) {
+
+    private val _items = _forceUpdate.switchMap { forceUpdate ->
+        liveData {
             _dataLoading.value = true
-            viewModelScope.launch {
-                appRepository.refreshTasks()
-                _dataLoading.value = false
-            }
+            var tasks = appRepository.getAllTasks()
+            _dataLoading.value = false
+            emit(filterTask(tasks))
         }
-        appRepository.observeTasks().distinctUntilChanged().switchMap {
-            filterTask(it)
-        }
+    }
+
+    val items:LiveData<List<Task>> = _items
+
+    val empty:LiveData<Boolean> = _items.map {
+        it.isEmpty()
     }
 
     private val _dataLoading = MutableLiveData<Boolean>()
@@ -71,7 +75,7 @@ class TasksViewModel @ViewModelInject constructor(
     }
 
     private fun loadTasks(forceUpdate: Boolean) {
-
+        _forceUpdate.value = forceUpdate
     }
 
     private fun setFilter(
@@ -90,8 +94,8 @@ class TasksViewModel @ViewModelInject constructor(
         return savedStateHandle.get(TASKS_FILTER_SAVED_STATE_KEY) ?: TaskFilterType.ALL_TASKS
     }
 
-    private fun filterTask(tasksResult: Result<List<Task>>): LiveData<List<Task>> {
-        val result = MutableLiveData<List<Task>>()
+    private fun filterTask(tasksResult: Result<List<Task>>): List<Task> {
+        val result = Result<List<Task>>()
         if (tasksResult is Result.Success) {
             viewModelScope.launch {
                 result.value = filterItems(tasksResult.data, getSavedFilterType())
@@ -116,6 +120,14 @@ class TasksViewModel @ViewModelInject constructor(
             }
         }
         return taskShow
+    }
+
+    fun refresh(refreshLayout:RefreshLayout){
+        _forceUpdate.value = true
+    }
+
+    fun loadMore(refreshLayout:RefreshLayout){
+
     }
 }
 

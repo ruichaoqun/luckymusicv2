@@ -7,7 +7,6 @@ import com.ruichaoqun.luckymusicv2.data.source.DataSource
 import com.ruichaoqun.luckymusicv2.data.source.DefaultAppRepository
 import com.ruichaoqun.luckymusicv2.data.source.local.TaskLocalDataSource
 import com.ruichaoqun.luckymusicv2.data.source.local.ToDoDatabase
-import com.ruichaoqun.luckymusicv2.data.source.remote.TaskRemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,20 +27,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 class AppModule {
-    @Qualifier
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class RemoteTasksDataSource
 
     @Qualifier
     @Retention(AnnotationRetention.RUNTIME)
     annotation class LocalTasksDataSource
-
-    @Singleton
-    @RemoteTasksDataSource
-    @Provides
-    fun provideTasksRemoteDataSource():DataSource{
-        return TaskRemoteDataSource()
-    }
 
     @Singleton
     @LocalTasksDataSource
@@ -70,10 +59,9 @@ class AppModule {
     @Singleton
     @Provides
     fun provideTaskRepository(
-        @AppModule.RemoteTasksDataSource remote:DataSource,
         @AppModule.LocalTasksDataSource local:DataSource,
         dispatcher:CoroutineDispatcher
     ):AppRepository{
-        return DefaultAppRepository(remote,local,dispatcher)
+        return DefaultAppRepository(local,dispatcher)
     }
 }

@@ -49,4 +49,17 @@ class TaskLocalDataSource(
             Result.Success(it)
         }
     }
+
+    override suspend fun getTask(taskId: String):Result<Task> = withContext(ioDispatcher){
+        try {
+            val task = tasksDao.getTaskById(taskId)
+            if(task != null){
+                return@withContext Result.Success(task)
+            }else{
+                return@withContext Result.Error("未找到活动")
+            }
+        }catch (e:Exception){
+            return@withContext Result.Error(e.message?:"")
+        }
+    }
 }

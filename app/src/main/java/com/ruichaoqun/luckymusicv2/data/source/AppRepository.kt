@@ -12,6 +12,9 @@ import com.ruichaoqun.luckymusicv2.data.Task
  * @Version:        1.0
  */
 interface AppRepository {
-    suspend fun refreshTasks()
-    fun observeTasks():LiveData<Result<List<Task>>>
+    suspend fun getAllTasks():Result<List<Task>>
+
+    suspend fun getTask(taskId:String):Result<Task>
+
+    suspend fun saveTask(task: Task)
 }

@@ -14,28 +14,19 @@ import kotlinx.coroutines.Dispatchers
  * @Version:        1.0
  */
 class DefaultAppRepository(
-    private val tasksRemoteDataSource:DataSource,
     private val tasksLocalDataSource:DataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ):AppRepository {
-    override suspend fun refreshTasks() {
-        updateTasksFromRemoteDataSource()
 
+    override suspend fun getAllTasks():Result<List<Task>> {
+        return tasksLocalDataSource.getTasks()
     }
 
-    override fun observeTasks(): LiveData<Result<List<Task>>> {
-        return tasksLocalDataSource.observeTasks()
+    override suspend fun getTask(taskId: String): Result<Task> {
+        return tasksLocalDataSource.getTask(taskId)
     }
 
-    private suspend fun updateTasksFromRemoteDataSource() {
-        var tasks = tasksRemoteDataSource.getTasks()
-        if(tasks is Result.Success){
-            tasksLocalDataSource.deleteAllTasks()
-            tasks.data.forEach { task->
-                tasksLocalDataSource.saveTask(task)
-            }
-        }else if(tasks is Result.Error){
-
-        }
+    override suspend fun saveTask(task: Task) {
+        tasksLocalDataSource.saveTask(task)
     }
 }

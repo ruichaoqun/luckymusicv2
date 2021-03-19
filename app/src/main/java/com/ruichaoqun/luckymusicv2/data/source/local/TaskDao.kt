@@ -24,4 +24,7 @@ interface TaskDao {
 
     @Query("SELECT * FROM TASKS")
     fun observeTasks():LiveData<List<Task>>
+
+    @Query("SELECT * FROM TASKS WHERE id = :taskId")
+    suspend fun getTaskById(taskId:String):Task?
 }
