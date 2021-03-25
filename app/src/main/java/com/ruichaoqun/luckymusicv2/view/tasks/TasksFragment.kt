@@ -1,14 +1,16 @@
 package com.ruichaoqun.luckymusicv2.view.tasks
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.ruichaoqun.luckymusicv2.databinding.FragmentTasksBinding
+import com.ruichaoqun.luckymusicv2.utils.initSchemeColors
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,13 +33,25 @@ class TasksFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-        listAdapter = TaskAdapter()
+        listAdapter = TaskAdapter(viewModel)
         viewDataBinding.recyclerView.adapter = listAdapter
+
+
         viewModel.items.observe(viewLifecycleOwner){
-            listAdapter.setNewItems(it)
+            listAdapter.submitList(it)
         }
-        viewDataBinding.fabAddTask.setOnClickListener {
+        viewDataBinding.refreshLayout.apply {
+            setOnRefreshListener {
+                viewModel.refresh()
+            }
+            initSchemeColors()
+        }
+        viewModel.newTaskEvent.observe(viewLifecycleOwner){
+            Log.w("AAAAA","newTaskEvent")
             findNavController().navigate(TasksFragmentDirections.actionTasksFragmentDestToAddTaskFragment(null,"Add Task"))
+        }
+        viewModel.toast.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
     }
 }

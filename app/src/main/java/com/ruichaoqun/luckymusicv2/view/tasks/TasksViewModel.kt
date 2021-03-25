@@ -1,8 +1,12 @@
 package com.ruichaoqun.luckymusicv2.view.tasks
 
+import android.util.Log
+import android.view.View
+import androidx.annotation.NonNull
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.ruichaoqun.luckymusicv2.Event
 import com.ruichaoqun.luckymusicv2.R
 import com.ruichaoqun.luckymusicv2.data.Result
 import com.ruichaoqun.luckymusicv2.data.Task
@@ -25,7 +29,8 @@ class TasksViewModel @ViewModelInject constructor(
 
     private val _items = _forceUpdate.switchMap { forceUpdate ->
         liveData {
-            _dataLoading.value = true
+            if(forceUpdate)
+                _dataLoading.value = true
             var tasks = appRepository.getAllTasks()
             _dataLoading.value = false
             emit(filterTask(tasks))
@@ -52,6 +57,12 @@ class TasksViewModel @ViewModelInject constructor(
 
     private val _taskAddVisible = MutableLiveData<Boolean>()
     val taskAddVisible: LiveData<Boolean> = _taskAddVisible
+
+    private val _toast = MutableLiveData<String>()
+    val toast:LiveData<String> = _toast
+
+    private val _newTaskEvent = MutableLiveData<Event<Unit>>()
+    val newTaskEvent: LiveData<Event<Unit>> = _newTaskEvent
 
     init {
         setFiltering(getSavedFilterType())
@@ -95,15 +106,11 @@ class TasksViewModel @ViewModelInject constructor(
     }
 
     private fun filterTask(tasksResult: Result<List<Task>>): List<Task> {
-        val result = Result<List<Task>>()
-        if (tasksResult is Result.Success) {
-            viewModelScope.launch {
-                result.value = filterItems(tasksResult.data, getSavedFilterType())
-            }
+        return if (tasksResult is Result.Success) {
+            filterItems(tasksResult.data, getSavedFilterType())
         } else {
-            result.value = emptyList()
+            emptyList()
         }
-        return result
     }
 
     private fun filterItems(data: List<Task>, savedFilterType: TaskFilterType): List<Task> {
@@ -122,12 +129,30 @@ class TasksViewModel @ViewModelInject constructor(
         return taskShow
     }
 
-    fun refresh(refreshLayout:RefreshLayout){
+    fun refresh(){
         _forceUpdate.value = true
     }
 
-    fun loadMore(refreshLayout:RefreshLayout){
+    fun onCheckedChanged(task:Task,isComplete:Boolean){
+        viewModelScope.launch {
+            if(isComplete){
+                appRepository.completeTask(task)
+                _toast.value = "关闭活动"
+                _forceUpdate.value = false
+            }else{
+                appRepository.acrivateTask(task)
+                _toast.value = "开启活动"
+                _forceUpdate.value = false
+            }
+        }
+    }
 
+    fun showDetail(task:Task){
+        Log.w("AAAAA",task.id)
+    }
+
+    fun addNewTask(){
+        _newTaskEvent.value = Event(Unit)
     }
 }
 

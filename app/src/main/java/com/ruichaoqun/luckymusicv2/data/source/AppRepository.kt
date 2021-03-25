@@ -17,4 +17,7 @@ interface AppRepository {
     suspend fun getTask(taskId:String):Result<Task>
 
     suspend fun saveTask(task: Task)
+
+    suspend fun completeTask(task: Task)
+    suspend fun acrivateTask(task: Task)
 }

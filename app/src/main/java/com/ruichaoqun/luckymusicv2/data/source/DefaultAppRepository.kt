@@ -3,6 +3,7 @@ package com.ruichaoqun.luckymusicv2.data.source
 import androidx.lifecycle.LiveData
 import com.ruichaoqun.luckymusicv2.data.Result
 import com.ruichaoqun.luckymusicv2.data.Task
+import com.ruichaoqun.luckymusicv2.data.source.local.TaskLocalDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -28,5 +29,13 @@ class DefaultAppRepository(
 
     override suspend fun saveTask(task: Task) {
         tasksLocalDataSource.saveTask(task)
+    }
+
+    override suspend fun completeTask(task: Task) {
+        tasksLocalDataSource.completeTask(task)
+    }
+
+    override suspend fun acrivateTask(task: Task) {
+        tasksLocalDataSource.acrivateTask(task)
     }
 }

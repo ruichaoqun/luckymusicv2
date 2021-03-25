@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="task"
@@ -8,12 +9,25 @@
             name="vm"
             type="com.ruichaoqun.luckymusicv2.view.tasks.TasksViewModel" />
     </data>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:onClick="@{()->vm.showDetail(task)}">
+        <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="test"/>
-    </RelativeLayout>
+            android:layout_marginStart="16dp"
+            android:checked="@{task.isCompleted}"
+            android:onCheckedChangeListener="@{(v,ischeck)->vm.onCheckedChanged(task,ischeck)}"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{task.title}"
+            android:layout_marginStart="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            completedTask ="@{task.isCompleted}"/>
+    </LinearLayout>
 </layout>

@@ -1,7 +1,10 @@
 package com.ruichaoqun.luckymusicv2
 
+import android.media.browse.MediaBrowser
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
@@ -12,29 +15,8 @@ import androidx.viewbinding.ViewBinding
  * @Description:    BaseAdapter
  * @Version:        1.0
  */
-abstract class BaseAdapter<T:Any,VB:ViewBinding>(
-    data: MutableList<T>? = null,
-):RecyclerView.Adapter<BaseAdapter.BaseViewHolder<VB>>() {
-    private val items:MutableList<T> = data?: mutableListOf()
-
-    fun setNewItems(list: List<T>?){
-        if(list == this.items){
-            return
-        }
-        this.items.clear()
-        this.items.addAll(list?: mutableListOf())
-        notifyDataSetChanged()
-    }
-
-    fun addItems(list: MutableList<T>?){
-        if(list == this.items){
-            return
-        }
-        list?.let {it->
-            this.items.addAll(it)
-            notifyItemRangeInserted(this.items.size - it.size, it.size)
-        }
-    }
+abstract class BaseAdapter<T:Any,VB:ViewBinding>(diffCallback: DiffUtil.ItemCallback<T>
+): ListAdapter<T,BaseAdapter.BaseViewHolder<VB>>(diffCallback) {
 
     class BaseViewHolder<VB:ViewBinding>(val binding:VB):RecyclerView.ViewHolder(binding.root)
 
@@ -45,15 +27,10 @@ abstract class BaseAdapter<T:Any,VB:ViewBinding>(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<VB>, position: Int) {
-        convert(holder.binding,items[position])
+        convert(holder.binding,getItem(position))
     }
 
     abstract fun createBinding(layoutInflater:LayoutInflater,parent: ViewGroup):VB
 
     abstract fun convert(binding: VB,item:T)
-
-
-    override fun getItemCount(): Int {
-        return items.size
-    }
 }

@@ -18,5 +18,7 @@ interface DataSource {
     suspend fun saveTask(task: Task)
     fun observeTasks(): LiveData<Result<List<Task>>>
     suspend fun getTask(taskId: String):Result<Task>
+    suspend fun completeTask(task: Task)
+    suspend fun acrivateTask(task: Task)
 
 }

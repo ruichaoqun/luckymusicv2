@@ -62,4 +62,12 @@ class TaskLocalDataSource(
             return@withContext Result.Error(e.message?:"")
         }
     }
+
+    override suspend fun completeTask(task: Task) = withContext(ioDispatcher){
+        tasksDao.updateCompleted(task.id,true)
+    }
+
+    override suspend fun acrivateTask(task: Task) {
+        tasksDao.updateCompleted(task.id,false)
+    }
 }
