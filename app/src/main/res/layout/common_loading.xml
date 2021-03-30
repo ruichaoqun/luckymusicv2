@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/common_loading" />
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="加载中..."
+            android:layout_below="@+id/progress_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/iv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/stat_notify_error"
+            android:tint="#F00"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/tv_error_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="加载中..."
+            android:layout_below="@+id/iv_error"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp" />
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击重试"
+            android:layout_below="@+id/tv_error_hint"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+</layout>

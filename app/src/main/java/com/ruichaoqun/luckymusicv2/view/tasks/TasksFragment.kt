@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ruichaoqun.luckymusicv2.R
 import com.ruichaoqun.luckymusicv2.databinding.FragmentTasksBinding
 import com.ruichaoqun.luckymusicv2.utils.initSchemeColors
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,5 +55,12 @@ class TasksFragment : Fragment() {
         viewModel.toast.observe(viewLifecycleOwner){
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
+        viewDataBinding.fabAddTask.setOnClickListener {
+            findNavController().navigate(TasksFragmentDirections.actionTasksFragmentDestToAddTaskFragment(null,"Add Task"))
+        }
+//        activity?.findViewById<FloatingActionButton>(R.id.fab_add_task)?.let {
+//            it.setOnClickListener {
+//            }
+//        }
     }
 }

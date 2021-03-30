@@ -2,6 +2,8 @@ package com.ruichaoqun.luckymusicv2.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.gson.Gson
+import com.ruichaoqun.luckymusicv2.data.ApiService
 import com.ruichaoqun.luckymusicv2.data.source.AppRepository
 import com.ruichaoqun.luckymusicv2.data.source.DataSource
 import com.ruichaoqun.luckymusicv2.data.source.DefaultAppRepository
@@ -14,6 +16,10 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -60,8 +66,35 @@ class AppModule {
     @Provides
     fun provideTaskRepository(
         @AppModule.LocalTasksDataSource local:DataSource,
-        dispatcher:CoroutineDispatcher
+        dispatcher:CoroutineDispatcher,
+        apiService: ApiService
     ):AppRepository{
-        return DefaultAppRepository(local,dispatcher)
+        return DefaultAppRepository(local,dispatcher,apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(client:OkHttpClient,gson:Gson): ApiService {
+        return Retrofit.Builder()
+            .baseUrl("https://www.wanandroid.com/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build().create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient():OkHttpClient{
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            })
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson():Gson{
+        return Gson()
     }
 }

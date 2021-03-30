@@ -73,7 +73,6 @@
             android:src="@drawable/ic_add"
             app:layout_anchor="@id/refresh_layout"
             app:layout_anchorGravity="bottom|right|end"
-            android:layout_margin="16dp"
-            android:onClick="@{()->vm.addNewTask()}"/>
+            android:layout_margin="16dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

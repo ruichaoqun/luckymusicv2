@@ -1,11 +1,19 @@
 package com.ruichaoqun.luckymusicv2.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.ruichaoqun.luckymusicv2.data.ApiService
+import com.ruichaoqun.luckymusicv2.data.HomeListResponse
 import com.ruichaoqun.luckymusicv2.data.Result
 import com.ruichaoqun.luckymusicv2.data.Task
 import com.ruichaoqun.luckymusicv2.data.source.local.TaskLocalDataSource
+import com.ruichaoqun.luckymusicv2.view.paging.HomePagingSource
+import com.ruichaoqun.luckymusicv2.view.paging.LoadMoreDataBean
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 
 /**
  *
@@ -16,7 +24,8 @@ import kotlinx.coroutines.Dispatchers
  */
 class DefaultAppRepository(
     private val tasksLocalDataSource:DataSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val apiService: ApiService
 ):AppRepository {
 
     override suspend fun getAllTasks():Result<List<Task>> {
@@ -29,6 +38,7 @@ class DefaultAppRepository(
 
     override suspend fun saveTask(task: Task) {
         tasksLocalDataSource.saveTask(task)
+
     }
 
     override suspend fun completeTask(task: Task) {
@@ -38,4 +48,13 @@ class DefaultAppRepository(
     override suspend fun acrivateTask(task: Task) {
         tasksLocalDataSource.acrivateTask(task)
     }
+
+    override fun getHomeList(): Flow<PagingData<LoadMoreDataBean<HomeListResponse.Data.Result>>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20,enablePlaceholders = false),
+            pagingSourceFactory = {HomePagingSource(apiService)}
+        ).flow
+    }
+
+
 }
