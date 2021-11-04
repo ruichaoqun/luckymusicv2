@@ -10,16 +10,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TextView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             tools:ignore="MissingConstraints"
-            android:text="@{item.title}"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="#ddd"/>
-
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:cardCornerRadius="4dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                tools:ignore="MissingConstraints"
+                android:text="@{item.title}"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"/>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,4 +7,4 @@ package com.ruichaoqun.luckymusicv2.data
  * @Description:    BaseResponse
  * @Version:        1.0
  */
-data class BaseResponse<T>(var data:T,var errorCode:Int,var errorMsg:String)
+data class BaseResponse<T>(var data:T?,var errorCode:Int,var errorMsg:String)

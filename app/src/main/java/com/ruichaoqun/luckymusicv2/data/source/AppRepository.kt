@@ -5,7 +5,6 @@ import androidx.paging.PagingData
 import com.ruichaoqun.luckymusicv2.data.HomeListResponse
 import com.ruichaoqun.luckymusicv2.data.Result
 import com.ruichaoqun.luckymusicv2.data.Task
-import com.ruichaoqun.luckymusicv2.view.paging.LoadMoreDataBean
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -25,5 +24,5 @@ interface AppRepository {
     suspend fun completeTask(task: Task)
     suspend fun acrivateTask(task: Task)
 
-    fun getHomeList(): Flow<PagingData<LoadMoreDataBean<HomeListResponse.Data.Result>>>
+    fun getHomeList(): Flow<PagingData<HomeListResponse.Data.Result>>
 }

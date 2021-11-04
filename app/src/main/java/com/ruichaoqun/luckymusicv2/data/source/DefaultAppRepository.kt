@@ -1,16 +1,10 @@
 package com.ruichaoqun.luckymusicv2.data.source
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.ruichaoqun.luckymusicv2.data.ApiService
-import com.ruichaoqun.luckymusicv2.data.HomeListResponse
-import com.ruichaoqun.luckymusicv2.data.Result
-import com.ruichaoqun.luckymusicv2.data.Task
-import com.ruichaoqun.luckymusicv2.data.source.local.TaskLocalDataSource
+import com.ruichaoqun.luckymusicv2.data.*
 import com.ruichaoqun.luckymusicv2.view.paging.HomePagingSource
-import com.ruichaoqun.luckymusicv2.view.paging.LoadMoreDataBean
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -49,12 +43,10 @@ class DefaultAppRepository(
         tasksLocalDataSource.acrivateTask(task)
     }
 
-    override fun getHomeList(): Flow<PagingData<LoadMoreDataBean<HomeListResponse.Data.Result>>> {
+    override fun getHomeList(): Flow<PagingData<HomeListResponse.Data.Result>> {
         return Pager(
             config = PagingConfig(pageSize = 20,enablePlaceholders = false),
             pagingSourceFactory = {HomePagingSource(apiService)}
         ).flow
     }
-
-
 }

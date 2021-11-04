@@ -1,14 +1,8 @@
 package com.ruichaoqun.luckymusicv2.view.paging
 
-import android.util.Log
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import com.ruichaoqun.luckymusicv2.data.ApiService
 import com.ruichaoqun.luckymusicv2.data.BaseResponse
 import com.ruichaoqun.luckymusicv2.data.HomeListResponse
-import kotlinx.coroutines.delay
-import java.io.IOException
-import java.lang.Exception
 
 /**
  *
@@ -22,16 +16,16 @@ class HomePagingSource(private val apiService: ApiService):SimplePagingSource<Ho
         return apiService.getHomdList(position)
     }
 
-    override fun getList(response: BaseResponse<HomeListResponse.Data>): List<HomeListResponse.Data.Result>? {
-        return response.data.datas
+    override fun mapToList(response: BaseResponse<HomeListResponse.Data>): List<HomeListResponse.Data.Result>? {
+        return null
     }
 
     override fun hasNextPage(
-        list: List<HomeListResponse.Data.Result>?,
+        list: List<HomeListResponse.Data.Result>,
         position: Int,
         response: BaseResponse<HomeListResponse.Data>
     ): Boolean {
-        return response.data.curPage < response.data.pageCount
+        return false
     }
 }
 

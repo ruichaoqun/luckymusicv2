@@ -1,16 +1,12 @@
 package com.ruichaoqun.luckymusicv2.view.paging
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.ruichaoqun.luckymusicv2.databinding.CommonLoadingBinding
-import com.ruichaoqun.luckymusicv2.databinding.LayoutLoadStateFooterBinding
 import com.ruichaoqun.luckymusicv2.utils.CommonViewBindingViewHolder
 
 /**
@@ -22,6 +18,11 @@ import com.ruichaoqun.luckymusicv2.utils.CommonViewBindingViewHolder
  */
 class CommonRefreshAdapter(private val errorHint:String?,
                            private val retry:()->Unit?) : LoadStateAdapter<CommonViewBindingViewHolder<CommonLoadingBinding>>() {
+
+    override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
+        Log.w("AAAAA","${super.displayLoadStateAsItem(loadState)}")
+        return super.displayLoadStateAsItem(loadState)
+    }
     override fun onBindViewHolder(
         holder: CommonViewBindingViewHolder<CommonLoadingBinding>,
         loadState: LoadState
@@ -35,6 +36,10 @@ class CommonRefreshAdapter(private val errorHint:String?,
         holder.binding.btnRetry.setOnClickListener {
             retry.invoke()
         }
+    }
+
+    override fun getStateViewType(loadState: LoadState): Int {
+        return -1000001
     }
 
     override fun onCreateViewHolder(
