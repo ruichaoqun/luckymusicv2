@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.ruichaoqun.luckymusicv2.BasePagingDataAdapter
 import com.ruichaoqun.luckymusicv2.data.HomeListResponse
 import com.ruichaoqun.luckymusicv2.databinding.ItemAdapterHomeBinding
+import javax.inject.Inject
 
 /**
  *
@@ -13,7 +14,7 @@ import com.ruichaoqun.luckymusicv2.databinding.ItemAdapterHomeBinding
  * @Description:    HomeAdapter
  * @Version:        1.0
  */
-class HomeAdapter: BasePagingDataAdapter<HomeListResponse.Data.Result, ItemAdapterHomeBinding>(
+class HomeAdapter @Inject constructor(): BasePagingDataAdapter<HomeListResponse.Data.Result, ItemAdapterHomeBinding>(
     { t1, t2 -> t1.id == t2.id }
 ) {
     override fun createBinding(

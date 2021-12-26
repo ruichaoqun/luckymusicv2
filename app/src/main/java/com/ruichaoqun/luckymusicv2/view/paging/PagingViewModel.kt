@@ -17,4 +17,5 @@ class PagingViewModel  @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) :ViewModel() {
     val listData = appRepository.getHomeList()
+
 }

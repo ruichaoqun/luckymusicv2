@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ASMIdeaPluginConfiguration">
+    <asm skipDebug="true" skipFrames="true" skipCode="false" expandFrames="false" />
+    <groovy codeStyle="LEGACY" />
+  </component>
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
@@ -7,10 +11,13 @@
         <entry key="..\:/github/luckymusicv2/app/src/main/res/layout/item_no_more_data.xml" value="0.25" />
         <entry key="..\:/github/luckymusicv2/app/src/main/res/layout/layout_load_state_footer.xml" value="0.1661807580174927" />
         <entry key="..\:/github/luckymusicv2/app/src/main/res/layout/layout_no_data.xml" value="0.28072916666666664" />
+        <entry key="..\:/work/luckymusicv2/app/src/main/res/layout/activity_paging.xml" value="0.4696557971014493" />
+        <entry key="..\:/work/luckymusicv2/app/src/main/res/layout/item_adapter_home.xml" value="0.40222428174235403" />
+        <entry key="..\:/work/luckymusicv2/base-library/src/main/res/layout/common_dialog_loading.xml" value="0.45606884057971014" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

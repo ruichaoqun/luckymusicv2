@@ -1,8 +1,10 @@
 package com.ruichaoqun.luckymusicv2.utils
 
+import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ruichaoqun.luckymusicv2.view.paging.NoDataStateAdapter
 import com.ruichaoqun.luckymusicv2.view.paging.NoMoreDataStateAdapter
 
@@ -24,4 +26,12 @@ fun PagingDataAdapter<*,*>.withRefreshAndFooter(refresh: LoadStateAdapter<*>,
         noMoreData.checkNoMoreData(loadStates.source,itemCount)
     }
     return ConcatAdapter(refresh,noData, this, footer,noMoreData)
+}
+
+fun PagingDataAdapter<*,*>.bindRefreshEvent(refreshLayout: SwipeRefreshLayout){
+    addLoadStateListener {
+        if(refreshLayout.isRefreshing && it.refresh !is LoadState.Loading){
+            refreshLayout.isRefreshing = it.refresh is LoadState.Loading
+        }
+    }
 }

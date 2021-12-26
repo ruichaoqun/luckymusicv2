@@ -1,5 +1,6 @@
 package com.ruichaoqun.luckymusicv2.view.paging
 
+import android.util.Log
 import com.ruichaoqun.luckymusicv2.data.ApiService
 import com.ruichaoqun.luckymusicv2.data.BaseResponse
 import com.ruichaoqun.luckymusicv2.data.HomeListResponse
@@ -17,7 +18,7 @@ class HomePagingSource(private val apiService: ApiService):SimplePagingSource<Ho
     }
 
     override fun mapToList(response: BaseResponse<HomeListResponse.Data>): List<HomeListResponse.Data.Result>? {
-        return null
+        return response.data?.datas
     }
 
     override fun hasNextPage(
@@ -25,7 +26,10 @@ class HomePagingSource(private val apiService: ApiService):SimplePagingSource<Ho
         position: Int,
         response: BaseResponse<HomeListResponse.Data>
     ): Boolean {
-        return false
+        if(position > 5){
+            return false
+        }
+        return true
     }
 }
 

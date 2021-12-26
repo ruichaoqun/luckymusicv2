@@ -1,6 +1,5 @@
 package com.ruichaoqun.luckymusicv2.view.addtask
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.ruichaoqun.luckymusicv2.R
 import com.ruichaoqun.luckymusicv2.databinding.AddTaskFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 

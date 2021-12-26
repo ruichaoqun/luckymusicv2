@@ -13,6 +13,8 @@ import java.lang.Exception
  * @Description:    SimplePagingSource
  * @Version:        1.0
  */
+var showError = true
+var loadmoreError = true
 abstract class SimplePagingSource<T,R:Any>:PagingSource<Int,R>(){
     val INIT_PAGE_NUMBER = 0
 
@@ -27,7 +29,12 @@ abstract class SimplePagingSource<T,R:Any>:PagingSource<Int,R>(){
         try {
             val response = remoteLoad(position)
             delay(2000)
-            if(response.errorCode != 0){
+            if(response.errorCode != 0 || showError){
+                showError = false
+                return LoadResult.Error(Throwable(response.errorMsg))
+            }
+            if(position > 0 && loadmoreError){
+                loadmoreError = false
                 return LoadResult.Error(Throwable(response.errorMsg))
             }
             val list = mapToList(response)
@@ -45,6 +52,7 @@ abstract class SimplePagingSource<T,R:Any>:PagingSource<Int,R>(){
             }
             return LoadResult.Page(list?: arrayListOf(),preKey,nextKey)
         }catch (exception: Exception){
+            exception.printStackTrace()
             return LoadResult.Error(exception)
         }
     }

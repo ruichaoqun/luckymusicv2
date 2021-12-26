@@ -1,5 +1,6 @@
 package com.ruichaoqun.luckymusicv2.data.source
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -46,7 +47,10 @@ class DefaultAppRepository(
     override fun getHomeList(): Flow<PagingData<HomeListResponse.Data.Result>> {
         return Pager(
             config = PagingConfig(pageSize = 20,enablePlaceholders = false),
-            pagingSourceFactory = {HomePagingSource(apiService)}
+            pagingSourceFactory = {
+                Log.w("AAAAAAA","HomePagingSource new")
+                return@Pager HomePagingSource(apiService)
+            }
         ).flow
     }
 }
